@@ -17,26 +17,52 @@
     <span class="sr-only">Next</span>
   </a>
   <ol class="carousel-indicators">
-    <li data-target="#homeCarousel" *ngFor="let item of carousel_items;let index=index" data-slide-to="index"
-      [ngClass]="{active: index==0}"></li>
+    <li data-target="#homeCarousel" *ngFor="let item of carousel_items;let index=index" data-slide-to="index" [ngClass]="{active: index==0}"></li>
   </ol>
 </div>
-<div class="row mt-3 mb-3" *ngIf="todoList">
-  <div class="col-md-4 mb-2" *ngFor="let item of todoList.youtubes">
-    <div class="card">
-      <img class="card-img-top" [src]="item.youtube_image" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{item.title}}</h5>
-        <p class="card-text">{{item.subtitle}}</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="container" *ngIf="cards">
+  <div class="row mt-3 mb-3">
+    <div class="card-columns">
+      <div class="card" *ngFor="let item of cards;let index=index">
+        <a [routerLink]="['/card/',index]" routerLinkActive="router-link-active">
+          <img class="card-img-top" [src]="item.img" alt="Card image cap">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">{{item.title}}</h5>
+          <p class="card-text">{{item.description.short}}</p>
+          <div class="text-right">
+            <a href="#" data-toggle="modal" attr.data-target="#modal_{{index}}" class="btn btn-primary">อ่านต่อ..</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- <div *ngIf="todoList">
-  <p>Todo</p>
-  <ul>
-    <li *ngFor="let item of todoList.youtubes;let i=index">{{i+1}} : {{item.title}}</li>
-  </ul>
-</div> -->
+<!-- Modal -->
+<div *ngIf="cards">
+  <div class="modal fade" *ngFor="let item of cards;let index=index" id="modal_{{index}}">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{item.title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <img class="w-100" [src]="item.img">
+            </div>
+            <div class="col-md-8">
+              <p [innerHtml]="item.description.short"></p>
+              <hr>
+              <p [innerHtml]="item.description.full"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
