@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
 
     this.http.get('assets/card.json').subscribe((data) => {
       this.cards = data;
-      localStorage.setItem('card', JSON.stringify(data));
+      localStorage.setItem('cards', JSON.stringify(data));
       // console.log(JSON.stringify(this.cards));
     });
   }

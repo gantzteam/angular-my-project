@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="cos-md-6">
+      <h4>จดบันทึก</h4>
+      <form novalidate [formGroup]="memoForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="title">หัวข้อ</label>
+          <input type="text" class="form-control" formControlName="title" [ngClass]="{
+             'is-valid': isSubmitted && memoForm.controls.title.valid,
+             'is-invalid':isSubmitted && !memoForm.controls.title.valid
+            }">
+          <div class="invalid-feedback" *ngIf="memoForm.controls.title.errors?.required">
+            จำเป็นต้องระบุหัวข้อ
+          </div>
+          <div class="invalid-feedback" *ngIf="memoForm.controls.title.errors?.minlength">
+            ชื่อหัวข้อต้องยาวกว่า 5 ตัวอักษร
+          </div>
+          <div class="invalid-feedback" *ngIf="memoForm.controls.title.errors?.maxlength">
+            ชื่อหัวข้อมีความยาวไม่เกิน 20 ตัวอักษร
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="detail">เนื้อหา</label>
+          <textarea class="form-control" formControlName="detail" [ngClass]="{
+            'is-valid': isSubmitted && memoForm.controls.detail.valid,
+            'is-invalid':isSubmitted && !memoForm.controls.detail.valid
+            }"></textarea>
+          <div class="invalid-feedback" *ngIf="memoForm.controls.detail.errors?.maxlength">
+            เนื้อหามีความยาวไม่เกิน 50 ตัวอักษร
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">บันทึก</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h4 class="mb-3">บันทึกของฉัน</h4>
+      <div class="media alert alert-light border" *ngFor="let item of memos">
+        <div class="media-body">
+          <h5 class="mt-0">{{item.title}}</h5>
+          {{item.detail}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

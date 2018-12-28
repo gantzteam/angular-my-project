@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="cos-md-6">
+      <h4>จดบันทึก</h4>
+      <form #memoForm="ngForm" novalidate (ngSubmit)="onSubmit(memoForm)">
+        <div class="form-group is-invalid">
+          <label for="title">หัวข้อ</label>
+          <input type="text" class="form-control" name="title" required minlength="5" maxlength="20" [(ngModel)]="memo.title"
+            #title="ngModel" [ngClass]="{
+              'is-invalid': isSubmitted && title.invalid,
+              'is-valid':isSubmitted && title.valid
+              }">
+          <div class="invalid-feedback" *ngIf="title.errors?.required">
+            จำเป็นต้องระบุหัวข้อ
+          </div>
+          <div class="invalid-feedback" *ngIf="title.errors?.minlength">
+            ชื่อหัวข้อต้องยาวกว่า 5 ตัวอักษร
+          </div>
+          <!-- <div class="invalid-feedback" *ngIf="title.errors?.maxlength">
+            ชื่อหัวข้อมีความยาวไม่เกิน 20 ตัวอักษร
+          </div> -->
+        </div>
+        <div class="form-group">
+          <label for="detail">เนื้อหา</label>
+          <textarea class="form-control" name="detail" maxlength="50" [(ngModel)]="memo.detail" #detail="ngModel"
+            [ngClass]="{
+            'is-invalid': isSubmitted && detail.invalid,
+            'is-valid':isSubmitted && detail.valid
+            }"></textarea>
+          <div class="invalid-feedback" *ngIf="detail.errors?.maxlength">
+            เนื้อหามีความยาวไม่เกิน 50 ตัวอักษร
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">บันทึก</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h4 class="mb-3">บันทึกของฉัน</h4>
+      <div class="media alert alert-light border" *ngFor="let item of memos;let index=index">
+        <div class="media-body">
+          <h5 class="mt-0">{{item.title}}</h5>
+          {{item.detail}}
+          <p><button class="btn btn-outline-danger" (click)="removeMemo(item.id)">ลบ</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
