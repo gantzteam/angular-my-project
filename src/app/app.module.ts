@@ -17,7 +17,6 @@ import { HttpService } from './services/http.service';
 import { MemoComponent } from './memo/memo.component';
 import { Memo2Component } from './memo2/memo2.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

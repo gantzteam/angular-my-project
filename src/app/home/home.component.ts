@@ -1,13 +1,22 @@
 import { TodoService } from './../services/todo.service';
 import { HttpService } from './../services/http.service';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component, OnChanges, OnInit,
+  DoCheck, AfterContentInit, AfterContentChecked,
+  AfterViewInit, AfterViewChecked, OnDestroy
+} from '@angular/core';
+
+// import * as $ from 'jquery';
+declare var $: any;
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnChanges, OnInit,
+  DoCheck, AfterContentInit, AfterContentChecked,
+  AfterViewInit, AfterViewChecked, OnDestroy {
   private todoList: any;
   carousel_items = [
     {
@@ -29,19 +38,61 @@ export class HomeComponent implements OnInit {
 
   cards: any;
 
-  constructor(private http: HttpService) { } // private todoService: TodoService
+  counter = 0;
+  name = '';
+  constructor(private http: HttpService) {
+    console.log(`constructor - counter is ${this.counter}`);
+  } // private todoService: TodoService
+
+  ngOnChanges() {
+    console.log(`ngOnChange - counter is ${this.counter}`);
+  }
 
   ngOnInit() {
     // this.todoService.getTodoList().subscribe((res) => {
     //   this.todoList = res;
     // });
     // console.log(this.todoList);
+    console.log(`ngOnInit - counter is ${this.counter}`);
+    $('#homeCarousel').carousel();
+  }
 
+  ngDoCheck() {
+    console.log('ngDoCheck');
+  }
+
+  ngAfterContentInit() {
+    console.log('ngAfterContentInit');
+  }
+
+  ngAfterContentChecked() {
+    console.log('ngAfterContentChecked');
+  }
+
+  ngAfterViewInit() {
     this.http.get('assets/card.json').subscribe((data) => {
       this.cards = data;
       localStorage.setItem('cards', JSON.stringify(data));
       // console.log(JSON.stringify(this.cards));
+      console.log('ngAfterViewInit');
     });
+  }
+
+  ngAfterViewChecked() {
+    console.log('ngAfterViewChecked');
+
+  }
+
+  ngOnDestroy() {
+    alert('Destroy method.');
+  }
+
+  increase() {
+    this.counter++;
+  }
+
+  decrease() {
+    this.counter--;
   }
 }
 
